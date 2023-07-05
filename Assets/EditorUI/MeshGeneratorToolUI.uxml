@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/EditorUI/USS/MeshGeneratorTool.uss?fileID=7433441132597879392&amp;guid=974b86d0057196c4d8db03c46f85519d&amp;type=3#MeshGeneratorTool" />
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:IntegerField label="Size X" value="20" name="_xSize" />
+        <ui:IntegerField label="Size Z" value="20" name="_zSize" />
+        <ui:SliderInt picking-mode="Ignore" label="LOD" value="0" high-value="6" name="_levelOfDetail" low-value="0" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Perlin X" value="0.3" high-value="5" name="_perlinX" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Perlin Z" value="0.3" high-value="5" name="_perlinZ" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Scale" value="20" high-value="100" name="_scale" show-input-field="true" low-value="0.0001" />
+        <ui:Slider picking-mode="Ignore" label="Frequency" value="1" high-value="5" name="_frequency" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Persistence" value="0.5" high-value="1" name="_persistence" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Lacunarity" value="2" high-value="100" name="_lacunarity" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Amplitude" value="1" high-value="5" name="_amplitude" show-input-field="true" />
+        <ui:Slider picking-mode="Ignore" label="Max Height" value="0.3" high-value="5" name="_maxHeight" show-input-field="true" />
+        <uie:ObjectField label="Material" name="_material" type="UnityEngine.Material, UnityEngine.CoreModule" />
+        <ui:Button text="Generate Mesh" display-tooltip-when-elided="true" name="_generateMesh" class="MeshGeneratorTool" />
+        <ui:Toggle label="Live Update" name="_updateLive" value="false" />
+    </ui:VisualElement>
+</ui:UXML>
