@@ -11,6 +11,11 @@ public class CellSprite :  ScriptableObject
         [SerializeField] Sprite sprite;
         public Sprite GetSprite { get{ return sprite; } }
 
+        [SerializeField] float weight = 1f;
+        public float GetWeight {get {return weight;} }
+
+        public bool hasCollider;
+
         [SerializeField] List<string> spriteRules;
         public List<string> GetSpriteRules { get{ return spriteRules; } }
     }

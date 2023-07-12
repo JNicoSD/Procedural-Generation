@@ -25,6 +25,7 @@ public class WaveFunction1D_ArrayEditor : Editor
             {
                 DestroyImmediate(g);
             }
+            //waveFunction1D_Array.GetCells.Clear();
             waveFunction1D_Array.TileGroupIndex = -1;
             waveFunction1D_Array.GetTileGroup.Clear(); 
             Debug.Log("TILEMAPS REMOVED");

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 namespace SimpleRandomizer
 {
@@ -70,7 +70,7 @@ namespace SimpleRandomizer
             return -1; */
         }
 
-        public TKey WeightedRandomKey<TKey>(Dictionary<TKey, float> objectList) 
+        public TKey WeightedRandomKey<TKey>(IDictionary<TKey, float> objectList) 
         {
             totalSum = 0;
             var sortedWeight = objectList.OrderBy(o => o.Value).ToDictionary(o => o.Key, o => o.Value);
@@ -96,7 +96,7 @@ namespace SimpleRandomizer
             return default(T); */
         }
 
-        public float WeightedRandomValue<TKey>(Dictionary<TKey, float> objectList)
+        public float WeightedRandomValue<TKey>(IDictionary<TKey, float> objectList)
         {
             totalSum = 0;
             var sortedWeight = objectList.OrderBy(o => o.Value).ToDictionary(o => o.Key, o => o.Value);

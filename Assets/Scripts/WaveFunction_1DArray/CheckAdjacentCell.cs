@@ -7,24 +7,29 @@ using UnityEngine;
 using DebugUI;
 public class CheckAdjacentCell : MonoBehaviour
 {
-    enum Direction{
+    public enum Direction{
         Top = 0,
         Right = 1,
         Down = 2,
         Left = 3
     }
 
-    Cell[] cells;
-    int height, width;
+    List<Cell> cells = new List<Cell>();
+    int height, width, gridSize;
     CellSprite.SpriteList[] spriteList;
 
-    public void StartCheckCell(Cell[] _cells, int _cellIndex, int _height, int _width, CellSprite.SpriteList[] _spriteList)
+    public void StartCheckCell(List<Cell> _cells, int _cellIndex, int _height, int _width, CellSprite.SpriteList[] _spriteList)
     {   
         // I did this so it can be accessed by the whole script
-        cells = _cells;
-        height = _height;
-        width = _width;
-        spriteList = _spriteList;
+        //if(this.cells != null) this.cells.Clear();
+        this.cells = _cells;
+        //foreach(Cell c in _cells) this.cells.Add(c);
+
+        this.height = _height;
+        this.width = _width;
+        this.spriteList = _spriteList;
+
+        this.gridSize = _width * _height;
 
         // The pattern I set is Check TOP -> RIGHT -> DOWN -> LEFT
         // BUT... when checking TOP and DOWN cell, it will also check the ones on its RIGHT and LEFT
@@ -46,11 +51,12 @@ public class CheckAdjacentCell : MonoBehaviour
         (index + 1) % width == 0          ===> indices at the very right
         index % width == 0                ===> indices at the very left
     */
-    void CheckTopCell(Direction direction, int index)
+    public void CheckTopCell(Direction direction, int index)
     {   
         // index < height * width checks if the current index is at the very top
         // IF it is, it does not continue the loop
-        for( ; index < height * width ; index += width)
+        int maxSize = height * width;
+        for( ; index < maxSize ; index += width)
         {
             // Update Cell. Pass Direction.Top since we are checking the top cell
             // also pass the current Index which will be the basis of the checking (will become previous Cell in UpdateCell)
@@ -65,7 +71,7 @@ public class CheckAdjacentCell : MonoBehaviour
             if(index % width != 0) UpdateCell(Direction.Left, index + width);
         }
     }
-    void CheckRightCell(Direction direction, int index)
+    public void CheckRightCell(Direction direction, int index)
     {
         // (index + 1) % width != 0 checks if the current index is at the very right
         // IF it is, it does not continue the loop
@@ -84,7 +90,7 @@ public class CheckAdjacentCell : MonoBehaviour
             if(index >= width) UpdateCell(Direction.Down, index + 1);
         }
     }
-    void CheckDownCell(Direction direction, int index)
+    public void CheckDownCell(Direction direction, int index)
     {
         // index >= 0 checks if the current index is at the very bottom
         // IF it is, it does not continue the loop
@@ -103,7 +109,7 @@ public class CheckAdjacentCell : MonoBehaviour
             if(index % width != 0) UpdateCell(Direction.Left, index - width);
         }
     }
-    void CheckLeftCell(Direction direction, int index)
+    public void CheckLeftCell(Direction direction, int index)
     {   
         // index % width != 0 checks if the current index is at the very left
         // IF it is, it does not continue the loop
@@ -167,9 +173,13 @@ public class CheckAdjacentCell : MonoBehaviour
             ruleDirection = (3, 1); // 3 -> 1 when the base tile is using its LEFT side
         }
 
-        if(currIndex >= 0 && currIndex < height * width) // This makes sure that the current index is not out of range 
+
+        if((currIndex >= 0 && currIndex < gridSize) == false) // This makes sure that the current index is not out of range 
+        { 
+            // do nothing...
+        } else if(cells[currIndex].IsFilled == false) // Also skips checking the current if it is already filled (basically, it has already been adjusted before)
         {
-            if(cells[prevIndex].GetSprites != null) // IF *THERE* IS A SPRITE ASSIGNED
+            if(cells[prevIndex].GetSprites != null) // IF PREVIOUS INDEX *HAS* A SPRITE ASSIGNED
             {
                     for(int i = 0; i < spriteList.Length; i++) // loop base on cell sprite length
                     {
@@ -184,7 +194,7 @@ public class CheckAdjacentCell : MonoBehaviour
                             newCandidates.Add(spriteList[i]);
                         }
                     }
-            } else // IF *NO* SPRITE ASSIGNED
+            } else // IF PREVIOUS INDEX HAS *NO* SPRITE ASSIGNED
             {
                 foreach(CellSprite.SpriteList sprite in cells[prevIndex].GetCandidates) // loop through all cell candidates of the previous cell/Index
                 {
@@ -203,10 +213,9 @@ public class CheckAdjacentCell : MonoBehaviour
                     }
                 }
             }
-
             cells[currIndex].UpdateCandidates(newCandidates); // Update the cell candidates of the current cell
-            
         }
+        
     }
 
 }
